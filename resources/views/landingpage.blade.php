@@ -12,18 +12,18 @@
 
 <body>
     <header>
-        <nav class="bg-white border-gray-200 dark:bg-gray-900">
-            <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-5 mx-3">
+        <nav class="bg-sky-800 border-gray-200 dark:bg-gray-900">
+            <div class="flex flex-wrap items-center justify-between mx-auto p-4">
                 <div class="flex items-center">
-                    <img src="img/logo.png" class="mr-5" alt="Logo Usk" width="50" height="50">
+                    <img src="img/logo.png" class="ml-3 mr-3" alt="Logo Usk" width="50" height="50" />
                     <div class="text-center">
-                        <h1 class="text-xl font-bold dark:text-white">SIMBIMA</h1>
-                        <h2 class="text-base font-normal dark:text-white">Universitas Syiah Kuala</h2>
+                        <h1 class="text-xl font-bold text-white">SIMBIMA</h1>
+                        <em class="text-base font-normal text-white">Universitas Syiah Kuala</em>
                     </div>
                 </div>
-            </div>
         </nav>
     </header>
+
 
     <main class="pt-20" style="background-color: #0e4166; text-align: white;">
         <div class="flex items-center justify-center">
@@ -37,7 +37,7 @@
         <br>
         <br>
         <div class="flex justify-center">
-            <a href="#">
+            <a href="/dashboard">
                 <button
                     class="flex items-center px-4 py-2 font-bold text-blue-500 bg-white rounded-full hover:bg-blue-600">
                     <i class="mr-2 fas fa-play-circle"></i>

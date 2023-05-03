@@ -1,0 +1,6 @@
+main {
+  background-image: url("fmipa.jpeg"); /* Ganti 'gambar.jpg' dengan nama file gambar Anda */
+  background-size: cover;
+  background-position: center;
+  height: 100vh; /* Ukuran sesuaikan dengan kebutuhan Anda */
+}
