@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\data_bimbingan;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 
 
@@ -27,7 +28,14 @@ class dataController extends Controller
      */
     public function create(): View
     {
-        return view('data_bimbingan.create');
+        $dosen_1 = DB::table('nama_dosen')->pluck('Nama')->toArray();
+        $dosen_2 = DB::table('nama_dosen')->pluck('Nama')->toArray();
+        $dosen_penguji = DB::table('nama_dosen')->pluck('Nama')->toArray();
+        $NIM = DB::table('mhs')->pluck('NIM')->toArray();
+        $nama = DB::table('mhs')->pluck('nama')->toArray();
+        
+        return view('data_bimbingan.create', [  'dosen_penguji' => $dosen_penguji,  'NIM' => $NIM,  'nama' => $nama, 'dosen_1' => $dosen_1,'dosen_2' => $dosen_2,]);
+
     }
 
     /**
@@ -55,7 +63,14 @@ class dataController extends Controller
     public function edit(string $id):view
     {
         $data_bimbingan = data_bimbingan::find($id);
-        return view('data_bimbingan.edit')->with('data_bimbingan', $data_bimbingan);
+        $dosen_1 = DB::table('nama_dosen')->pluck('Nama')->toArray();
+        $dosen_2 = DB::table('nama_dosen')->pluck('Nama')->toArray();
+        $dosen_penguji = DB::table('nama_dosen')->pluck('Nama')->toArray();
+        $NIM = DB::table('mhs')->pluck('NIM')->toArray();
+        $nama = DB::table('mhs')->pluck('nama')->toArray();
+        
+        return view('data_bimbingan.edit', [  'dosen_penguji' => $dosen_penguji,  'NIM' => $NIM,  'nama' => $nama, 'dosen_1' => $dosen_1,'dosen_2' => $dosen_2, 'data_bimbingan' => $data_bimbingan,]);
+
     }
 
     /**
@@ -66,7 +81,20 @@ class dataController extends Controller
         $data_bimbingan = data_bimbingan::find($id);
         $input = $request->all();
         $data_bimbingan->update($input);
-        return redirect('data_bimbingan')->with('flash_message', 'data_bimbingan Updated!');
+        $data_bimbingan = data_bimbingan::find($id);
+        $dosen_1 = DB::table('nama_dosen')->pluck('Nama')->toArray();
+        $dosen_2 = DB::table('nama_dosen')->pluck('Nama')->toArray();
+        $dosen_penguji = DB::table('nama_dosen')->pluck('Nama')->toArray();
+        $NIM = DB::table('mhs')->pluck('NIM')->toArray();
+        $nama = DB::table('mhs')->pluck('nama')->toArray();
+        return redirect('data_bimbingan')
+        ->with('flash_message', 'data_bimbingan Updated!')
+        ->with('dosen_1', $dosen_1)
+        ->with('dosen_2', $dosen_2)
+        ->with('dosen_penguji', $dosen_penguji)
+        ->with('NIM', $NIM)
+        ->with('nama', $nama);
+        // return redirect('data_bimbingan')->with('flash_message', 'data_bimbingan Updated!');
     }
 
     /**
