@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\home;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +36,13 @@ Route::resource("data_bimbingan", App\Http\Controllers\dataController::class);
 
 Route::get('/', function () {
     return view('landingpage');
+});
+
+Route::get('/barchart/Data', function(){
+    $data = DB::table('data_bimbingan')->get();
+    return response()->json($data);
+});
+
+Route::get('/barchart', function(){
+    return view('statistic.barchart');
 });
