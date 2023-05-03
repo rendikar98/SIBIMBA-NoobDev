@@ -13,10 +13,11 @@ class Barchart {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 1000,
       containerHeight: _config.containerHeight || 600,
-        margin: _config.margin || { top: 70, right: 50, bottom: 100, left: 50 }
+      margin: _config.margin || { top: 20, right: 20, bottom: 200, left: 40 }
     }
       this.data = _data;
 
+      console.log(this.data);
     this.initVis();
   }
 
@@ -101,12 +102,36 @@ class Barchart {
     vis.yValue = d => d.count
 
     // TO DO di sini: Set the scale input domains
-    vis.xScale.domain(vis.data.map(d => d.DosPem));
-    vis.yScale.domain([0, d3.max(vis.data, vis.yValue)]);
+    vis.xScale.domain(vis.data.map(d => d.DosPem))
+              .range([0, vis.width])
+              .paddingInner(0.1);
+    vis.yScale.domain([0, d3.max(vis.data, d => vis.yValue(d))])
 
-    
+              .range([vis.height, 0]);
+
+    // console.log(vis.xValue(vis.data[0]));
+    // console.log(vis.yValue(vis.data[0]));
+
+    // console.log(vis.xValue(vis.data[2]));
+    // console.log(vis.yValue(vis.data[2]));
+
+    // Update the x-axis and rotate the labels
+  vis.xAxisG.call(vis.xAxis)
+  .selectAll(".tick text")
+  .attr("transform", "rotate(-90)")
+  .attr("text-anchor", "end")
+  .attr("dx", "-0.8em")
+  .attr("dy", "-0.5em");
 
     vis.renderVis();
+
+    vis.xAxisG.selectAll(".tick line")
+    .attr("x1", 0)
+    .attr("y1", 0)
+    .attr("x2", 0)
+    .attr("y2", vis.height)
+    .attr("transform", "translate(" + vis.xScale.bandwidth() / 2 + ",0)");
+
   }
 
   /**
@@ -119,19 +144,34 @@ class Barchart {
       // Fill out renderVis
     let vis = this;
 
+    console.log('xValue:', Array.from(new Set(vis.data.map(d => vis.xValue(d)))));
+    console.log('yScale domain:', vis.yScale.domain());
+
+
     let bars = vis.chart.selectAll('.bar')
         .data(vis.data);
+
+    console.log(vis.data);
 
     let barEnter = bars.enter()
         .append('rect')
         .attr('class', 'bar');
 
     barEnter.merge(bars) // enter + update passing the selection to merge
-        .attr('x', (d) => vis.xScale(vis.xValue(d)))
-        .attr('width', vis.xScale.bandwidth())
+    .attr('x', (d) => {
+      const x = vis.xScale(vis.xValue(d));
+      console.log('x', x, 'd', d);
+      return x;
+  })
+    .attr('width', vis.xScale.bandwidth())
     .transition().duration(500).delay((d, i) => i * 5)
-        .attr('y', (d) => vis.height - vis.yScale(vis.yValue(d)))
-        .attr('height', (d) => vis.yScale(vis.yValue(d)))
+    .attr('y', (d) => {
+      const y = vis.yScale(vis.yValue(d));
+      console.log('y', y, 'd', d);
+      return y;
+    })
+    .attr('height', (d) => vis.height - vis.yScale(vis.yValue(d)));
+
 
     bars.exit().remove();
 

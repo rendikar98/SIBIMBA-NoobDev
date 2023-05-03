@@ -41,68 +41,68 @@ d3.json("/barchart/Data").then(function(data) {
 	DosPemCount.sort((a, b) => d3.descending(a.count, b.count));
 	// console.log(conditionCount)
 
-	// Define chart dimensions
-	var margin = { top: 20, right: 20, bottom: 200, left: 40 },
-		width = 960 - margin.left - margin.right,
-		height = 600 - margin.top - margin.bottom;
+// 	// Define chart dimensions
+// 	var margin = { top: 20, right: 20, bottom: 200, left: 40 },
+// 		width = 960 - margin.left - margin.right,
+// 		height = 600 - margin.top - margin.bottom;
 
-	// Define x and y scales
-	var x = d3.scaleBand()
-		.range([0, width])
-		.padding(0.2)
-		.domain(DosPemCount.map(d => d.DosPem));
-	var y = d3.scaleLinear()
-		.range([height, 0])
-		.domain([0, d3.max(DosPemCount, d => d.count)]);
-
-
-
-	// Create chart container and set dimensions
-	var svg = d3.select("body").append("svg")
-		.attr("width", width + margin.left + margin.right)
-		.attr("height", height + margin.top + margin.bottom)
-		.append("g")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-	// Create x-axis
-	svg.append("g")
-		.attr("class", "x-axis")
-		.attr("transform", "translate(0," + height + ")")
-		.call(d3.axisBottom(x));
-
-	// Create y-axis
-	svg.append("g")
-		.attr("class", "y-axis")
-		.call(d3.axisLeft(y));
-
-// Create bars
-svg.selectAll(".bar")
-.data(DosPemCount)
-.enter().append("rect")
-.attr("class", "bar")
-.attr("x", d => x(d.DosPem))
-.attr("width", x.bandwidth())
-.attr("y", d => y(d.count))
-.attr("height", d => height - y(d.count))
+// 	// Define x and y scales
+// 	var x = d3.scaleBand()
+// 		.range([0, width])
+// 		.padding(0.2)
+// 		.domain(DosPemCount.map(d => d.DosPem));
+// 	var y = d3.scaleLinear()
+// 		.range([height, 0])
+// 		.domain([0, d3.max(DosPemCount, d => d.count)]);
 
 
-	// Rotate x-axis labels
-	svg.selectAll(".x-axis text")  
-		.style("text-anchor", "end")
-		.attr("dx", "-.8em")
-		.attr("dy", ".15em")
-		.attr("transform", "rotate(-65)");
+
+// 	// Create chart container and set dimensions
+// 	var svg = d3.select("body").append("svg")
+// 		.attr("width", width + margin.left + margin.right)
+// 		.attr("height", height + margin.top + margin.bottom)
+// 		.append("g")
+// 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// 	// Create x-axis
+// 	svg.append("g")
+// 		.attr("class", "x-axis")
+// 		.attr("transform", "translate(0," + height + ")")
+// 		.call(d3.axisBottom(x));
+
+// 	// Create y-axis
+// 	svg.append("g")
+// 		.attr("class", "y-axis")
+// 		.call(d3.axisLeft(y));
+
+// // Create bars
+// svg.selectAll(".bar")
+// .data(DosPemCount)
+// .enter().append("rect")
+// .attr("class", "bar")
+// .attr("x", d => x(d.DosPem))
+// .attr("width", x.bandwidth())
+// .attr("y", d => y(d.count))
+// .attr("height", d => height - y(d.count))
+
+
+// 	// Rotate x-axis labels
+// 	svg.selectAll(".x-axis text")  
+// 		.style("text-anchor", "end")
+// 		.attr("dx", "-.8em")
+// 		.attr("dy", ".15em")
+// 		.attr("transform", "rotate(-65)");
 		
-	var tooltip = d3.select("body").append("div")
-		.attr("class", "tooltip")
-		.style("position", "absolute")
-		.style("z-index", "10")
-		.style("visibility", "hidden");
+// 	var tooltip = d3.select("body").append("div")
+// 		.attr("class", "tooltip")
+// 		.style("position", "absolute")
+// 		.style("z-index", "10")
+// 		.style("visibility", "hidden");
 
-// console.log(DosPemCount)
-// let barchart = new Barchart({ parentElement: '#vis'}, DosPemCount);
+console.log(DosPemCount)
+let barchart = new Barchart({ parentElement: '#vis'}, DosPemCount);
 
-// barchart.updateVis();
+barchart.updateVis();
 
 }).catch(function(error) {
 	console.log(error);
