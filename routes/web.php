@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('landingpage');
+Route::get('/data_bimbingan', function () {
+    return view('data_bimbingan');
 });
 
 Route::resource("data_bimbingan", App\Http\Controllers\dataController::class);
 
+Route::get('/', function () {
+    return view('landingpage');
+});
