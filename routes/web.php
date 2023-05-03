@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('Y');
+    return view('landingpage');
 });
 
 Route::resource("data_bimbingan", App\Http\Controllers\dataController::class);
