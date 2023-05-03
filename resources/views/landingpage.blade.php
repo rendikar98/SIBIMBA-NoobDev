@@ -50,7 +50,7 @@
     </main>
 
 
-    <footer class="py-5 text-center bg-white fixed-bottom">
+    <footer class="pt-2 text-center bg-white fixed-bottom">
         <p>&copy; 2023 NoobDev</p>
     </footer>
 
