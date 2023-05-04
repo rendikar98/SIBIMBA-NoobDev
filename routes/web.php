@@ -46,3 +46,7 @@ Route::get('/barchart/Data', function(){
 Route::get('/barchart', function(){
     return view('statistic.barchart');
 });
+
+Route::get('/login', function () {
+    return view('login');
+});
