@@ -24,7 +24,7 @@
                 <div class="flex items-center">
                     <a href="/" class="mx-4 font-normal text-white hover:text-gray-400">Dashboard</a>
                     <a href="#" class="mx-4 font-normal text-white hover:text-gray-400">Input Data</a>
-                    <a href="#" class="mx-4 font-normal text-white hover:text-gray-400">Statistik</a>
+                    <a href="/barchart" class="mx-4 font-normal text-white hover:text-gray-400">Statistik</a>
                     <a href="#" class="mx-4 font-normal text-white hover:text-gray-400">Logout</a>
                 </div>
             </div>
