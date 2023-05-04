@@ -9,8 +9,19 @@
           {!! csrf_field() !!}
           @method("PATCH")
           <input type="hidden" name="id" id="id" value="{{$data_bimbingan->id}}" id="id" />
+          <div class="px-10 mb-6">
           <label>Nama</label></br>
-          <input type="text" name="nama" id="nama" value="{{$data_bimbingan->nama}}" class="form-control"></br>
+          <input type="text" list= "nama" name="nama" id="nama" value="{{$data_bimbingan->nama}}" class="form-control">
+          <datalist id="nama">
+            {{-- {{ $data_bimbinngan -> $nama as $value }} --}}
+            <select>
+                @foreach ($nama as $value)
+                <option value="{{ $value }}"></option>
+                @endforeach
+            </select>
+        </datalist>  
+          </div>
+        </br>
           <label>NIM</label></br>
           <input type="text" name="NIM" id="NIM" value="{{$data_bimbingan->NIM}}" class="form-control"></br>
           <label>Mobile</label></br>

@@ -1,58 +1,76 @@
 @extends('data_bimbingan.layout')
 
 @section('content')
-    <div class="container "></div>
-    <div class="row">
-        <div class="col-md-9">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Laravel 9 Crud</h2>
-                </div>
-                <div class="card-body">
-                    <a href="{{ url('/data_bimbingan/create') }}" class="btn btn-success btn-sm" title="Add New Student">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                    </a>
-                    <br/>
-                    <br/>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nama</th>
-                                    <th>NIM</th>
-                                    <th>dosen pembimbing 1</th>
-                                    <th>dosen pembimbing 2</th>
-                                    <th>dosen penguji</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($data_bimbingan as $item)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->nama }}</td>
-                                    <td>{{ $item->NIM }}</td>
-                                    <td>{{ $item->dosen_pembimbing_1 }}</td>
-                                    <td>{{ $item->dosen_pembimbing_2 }}</td>
-                                    <td>{{ $item->dosen_penguji }}</td>
-                                    <td>
-                                        <a href="{{ url('/data_bimbingan/' . $item->id) }}" title="View Student"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
-                                        <a href="{{ url('/data_bimbingan/' . $item->id . '/edit') }}" title="Edit Student"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
-                                        <form method="POST" action="{{ url('/data_bimbingan' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete Student" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+    <body>
+        <header>
+            <nav class="bg-sky-800 border-gray-200 dark:bg-gray-900">
+                <div class="flex flex-wrap items-center justify-between mx-auto p-4">
+                    <div class="flex items-center">
+                        <img src="img/logo.png" class="ml-3 mr-3" alt="Logo Usk" width="50" height="50" />
+                        <div class="text-center">
+                            <h1 class="text-xl font-bold text-white">SIMBIMA</h1>
+                            <em class="text-base font-normal text-white">Universitas Syiah Kuala</em>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <a href="/dashboard" class="mx-4 font-normal text-white hover:text-gray-400">Dashboard</a>
+                        <a href="#" class="mx-4 font-normal text-white hover:text-gray-400">Input Data</a>
+                        <a href="/barchart" class="mx-4 font-normal text-white hover:text-gray-400">Statistik</a>
+                        <a href="#" class="mx-4 font-normal text-white hover:text-gray-400">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="row">
+            <div>
+                <div class="card">
+                    <div class="card-header mt-5">
+                        <h2>Tabel Mahasiswa</h2>
+                    </div>
+                    <div class="card-body">
+
+                        <br />
+                        <br />
+                        <div class="table-responsive mx-12 ">
+                            <table class="table table-auto border">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nama</th>
+                                        <th>NIM</th>
+                                        <th>Dosen Pembimbing 1</th>
+                                        <th>Dosen Pembimbing 2</th>
+                                        <th>Dosen Penguji</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach ($data_bimbingan as $item)
+                                        <tr class="hover:bg-stone-100">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->nama }}</td>
+                                            <td>{{ $item->NIM }}</td>
+                                            <td>{{ $item->dosen_pembimbing_1 }}</td>
+                                            <td>{{ $item->dosen_pembimbing_2 }}</td>
+                                            <td>{{ $item->dosen_penguji }}</td>
+                                            <td>
+                                                <form method="POST" action="{{ url('/data_bimbingan' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                                    {{ method_field('DELETE') }}
+                                                    {{ csrf_field() }}
+                                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete Student" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+
+                            </table>
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </body>
 @endsection
