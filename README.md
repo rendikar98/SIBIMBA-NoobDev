@@ -1,9 +1,9 @@
 # SIMBIMA-NoobDev (Sistem Pembimbingan Mahasiswa)
 Web Programming Project for Final
 
-Ketua   : Muhammad Farhan
+Ketua   : <br>Muhammad Farhan
 <br>
-Anggota : Akhyar <br>
+Anggota : <br>Akhyar <br>
           Adrean Badar <br>
           Muhammad Akbarul Ihsan <br>
           Muhammad Rayyan Azzuhri <br>
