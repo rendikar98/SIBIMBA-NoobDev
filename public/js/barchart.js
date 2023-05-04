@@ -86,6 +86,12 @@ class Barchart {
 			.attr('fill', 'black')
 			.style("text-anchor", "middle")
 			.text("Jumlah mahasiswa");
+
+      vis.tooltip = d3
+      .select(vis.config.parentElement)
+      .append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
   }
 
   /**
@@ -141,7 +147,20 @@ class Barchart {
 
 
     let bars = vis.chart.selectAll('.bar')
-        .data(vis.data);
+        .data(vis.data)
+        .on('mouseover', function(event, d) {
+          vis.tooltip
+          .transition()
+          .duration(200)
+          .style("opacity", 0.9);
+          vis.tooltip
+          .html('${d.DosPem}: ${d.count}')
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 28 + "px");
+        })
+        .on("mouseout", function (event, d) {
+          vis.tooltip.transition().duration(200).style("opacity", 0);
+        });;
 
     let barEnter = bars.enter()
         .append('rect')
