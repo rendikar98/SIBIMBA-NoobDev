@@ -16,6 +16,8 @@ class Barchart {
     };
     this.data = _data;
 
+
+
     this.initVis();
   }
 
@@ -96,12 +98,6 @@ class Barchart {
 			.attr('fill', 'black')
 			.style("text-anchor", "middle")
 			.text("Jumlah mahasiswa");
-
-      vis.tooltip = d3
-      .select(vis.config.parentElement)
-      .append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0);
   }
 
   /**
@@ -155,17 +151,21 @@ class Barchart {
     // Fill out renderVis
     let vis = this;
 
-    let bars = vis.chart.selectAll(".bar").data(vis.data);
+    vis.tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
 
     let bars = vis.chart.selectAll('.bar')
         .data(vis.data)
         .on('mouseover', function(event, d) {
+          console.log(d);
           vis.tooltip
           .transition()
           .duration(200)
           .style("opacity", 0.9);
           vis.tooltip
-          .html('${d.DosPem}: ${d.count}')
+          .html( `Jumlah mahasiswa : ${d.count}`)
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 28 + "px");
         })
@@ -173,8 +173,11 @@ class Barchart {
           vis.tooltip.transition().duration(200).style("opacity", 0);
         });;
 
-    barEnter
-      .merge(bars) // enter + update passing the selection to merge
+        let barEnter = bars.enter()
+        .append('rect')
+        .attr('class', 'bar');
+
+    barEnter.merge(bars) // enter + update passing the selection to merge
       .attr("x", (d) => {
         const x = vis.xScale(vis.xValue(d));
         return x;
