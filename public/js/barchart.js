@@ -17,7 +17,6 @@ class Barchart {
     }
       this.data = _data;
 
-      console.log(this.data);
     this.initVis();
   }
 
@@ -109,11 +108,7 @@ class Barchart {
 
               .range([vis.height, 0]);
 
-    // console.log(vis.xValue(vis.data[0]));
-    // console.log(vis.yValue(vis.data[0]));
 
-    // console.log(vis.xValue(vis.data[2]));
-    // console.log(vis.yValue(vis.data[2]));
 
     // Update the x-axis and rotate the labels
   vis.xAxisG.call(vis.xAxis)
@@ -144,14 +139,9 @@ class Barchart {
       // Fill out renderVis
     let vis = this;
 
-    console.log('xValue:', Array.from(new Set(vis.data.map(d => vis.xValue(d)))));
-    console.log('yScale domain:', vis.yScale.domain());
-
 
     let bars = vis.chart.selectAll('.bar')
         .data(vis.data);
-
-    console.log(vis.data);
 
     let barEnter = bars.enter()
         .append('rect')
@@ -160,14 +150,12 @@ class Barchart {
     barEnter.merge(bars) // enter + update passing the selection to merge
     .attr('x', (d) => {
       const x = vis.xScale(vis.xValue(d));
-      console.log('x', x, 'd', d);
       return x;
   })
     .attr('width', vis.xScale.bandwidth())
     .transition().duration(500).delay((d, i) => i * 5)
     .attr('y', (d) => {
       const y = vis.yScale(vis.yValue(d));
-      console.log('y', y, 'd', d);
       return y;
     })
     .attr('height', (d) => vis.height - vis.yScale(vis.yValue(d)));
