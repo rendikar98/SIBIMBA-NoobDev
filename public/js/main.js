@@ -5,11 +5,16 @@ d3.json("/barchart/Data").then(function(data) {
 	// Aggregate data by condition
 	var DosPem1Data = d3.group(data, d => d.dosen_pembimbing_1);
 	var DosPem2Data = d3.group(data, d => d.dosen_pembimbing_2);
+	var DosUji = d3.group(data, d => d.dosen_penguji);
+
 
 	var DosPemCount1 = Array.from(DosPem1Data, ([DosPem, data]) => ({ DosPem: DosPem, count: data.length }));
 	var DosPemCount2 = Array.from(DosPem2Data, ([DosPem, data]) => ({ DosPem: DosPem, count: data.length }));
+	var DosUjiCount = Array.from(DosUji, ([DosPem, data]) => ({ DosPem: DosPem, count: data.length}));
 
-	var mergedData = DosPemCount1.concat(DosPemCount2);
+	// console.log(DosUjiCount);
+
+	// var mergedData = DosPemCount1.concat(DosPemCount2);
 
 	// console.log(mergedData)
 
@@ -21,89 +26,142 @@ d3.json("/barchart/Data").then(function(data) {
 		return acc;
 	}, {}));
 
+
+	const DosTotalCount = Object.values([...DosPemCount, ...DosUjiCount].reduce((acc, cur) => {
+		if (!acc[cur.DosPem]) {
+			acc[cur.DosPem] = { DosPem: cur.DosPem, count: 0 };
+		}
+		acc[cur.DosPem].count += cur.count;
+		return acc;
+	}, {}));
+
+	console.log(DosPemCount);
+	console.log(DosTotalCount)
+
 	const getFilters = () => {
-		let s = {
-			"sex": "pendamping"
+		const sex = $('.btn-group .active input.sex').attr('value');
+		return { sex };
+	  };
+	  
 
-		};
-		$('.btn-group .active input').each(function (d, i) {
-			if($(this).hasClass('sex')){
-				s.sex = $(this).attr('value')
-			}
-		});
-		console.log(s);
-		return s;
-	};
+	const filterData = () => {
+		const filters = getFilters();
+		if(filters.sex === 'pendamping'){
+			return DosPemCount;
+		} else if(filters.sex === 'penguji'){
+			return DosUjiCount;
+		} else if(filters.sex === 'total'){
+			return DosTotalCount;
+		}
+	}
 
-	getFilters();
+
 
 	// Sort data by count in descending order
 	DosPemCount.sort((a, b) => d3.descending(a.count, b.count));
-	// console.log(conditionCount)
-
-	// Define chart dimensions
-	var margin = { top: 20, right: 20, bottom: 200, left: 40 },
-		width = 960 - margin.left - margin.right,
-		height = 600 - margin.top - margin.bottom;
-
-	// Define x and y scales
-	var x = d3.scaleBand()
-		.range([0, width])
-		.padding(0.2)
-		.domain(DosPemCount.map(d => d.DosPem));
-	var y = d3.scaleLinear()
-		.range([height, 0])
-		.domain([0, d3.max(DosPemCount, d => d.count)]);
+	DosUjiCount.sort((a, b) => d3.descending(a.count, b.count));
+	DosTotalCount.sort((a, b) => d3.descending(a.count, b.count));
 
 
+	let barchart = new Barchart({ parentElement: '#vis'}, filterData());
 
-	// Create chart container and set dimensions
-	var svg = d3.select("body").append("svg")
-		.attr("width", width + margin.left + margin.right)
-		.attr("height", height + margin.top + margin.bottom)
-		.append("g")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	barchart.updateVis();
 
-	// Create x-axis
-	svg.append("g")
-		.attr("class", "x-axis")
-		.attr("transform", "translate(0," + height + ")")
-		.call(d3.axisBottom(x));
-
-	// Create y-axis
-	svg.append("g")
-		.attr("class", "y-axis")
-		.call(d3.axisLeft(y));
-
-// Create bars
-svg.selectAll(".bar")
-.data(DosPemCount)
-.enter().append("rect")
-.attr("class", "bar")
-.attr("x", d => x(d.DosPem))
-.attr("width", x.bandwidth())
-.attr("y", d => y(d.count))
-.attr("height", d => height - y(d.count))
-
-
-	// Rotate x-axis labels
-	svg.selectAll(".x-axis text")  
-		.style("text-anchor", "end")
-		.attr("dx", "-.8em")
-		.attr("dy", ".15em")
-		.attr("transform", "rotate(-65)");
+	$('input').change(() => {
+		barchart.data = filterData();
+		barchart.updateVis();
 		
-	var tooltip = d3.select("body").append("div")
-		.attr("class", "tooltip")
-		.style("position", "absolute")
-		.style("z-index", "10")
-		.style("visibility", "hidden");
+		const filteredData = filterData();
+		console.log(filteredData);
+	}
+	);
 
-// console.log(DosPemCount)
-// let barchart = new Barchart({ parentElement: '#vis'}, DosPemCount);
 
-// barchart.updateVis();
+	const DosenData = DosPemCount.reduce((acc, cur) => {
+		const matchingUji = DosUjiCount.find((uji) => uji.DosPem === cur.DosPem);
+		const matchingTotal = DosTotalCount.find((total) => total.DosPem === cur.DosPem);
+		acc[cur.DosPem] = {
+			dosen : cur.DosPem,
+		  countPem: cur.count,
+		  countUji: matchingUji.count,
+		  countTotal: matchingTotal.count
+		};
+		return acc;
+	  }, {});
+	  
 
-}).catch(function(error) {
-	console.log(error);
-});
+	  const DosPemArray = Object.values(DosenData);
+		console.log(DosPemArray);
+
+		const table = document.createElement('table');
+		table.className = 'my-table';
+
+		const headerRow = table.insertRow();
+		const th1 = document.createElement('th');
+		th1.textContent = "Daftar Dosen";
+		th1.classList.add("my-custom-class");
+		headerRow.appendChild(th1);
+
+		const th2 = document.createElement('th');
+		th2.textContent = "mahasiswa dibimbing";
+		th2.style.fontWeight = "bold";
+		headerRow.appendChild(th2);
+
+		const th3 = document.createElement('th');
+		th3.textContent = "mahasiswa diuji";
+		th3.style.fontWeight = "bold";
+		headerRow.appendChild(th3);
+		
+		const th4 = document.createElement('th');
+		th4.textContent = "Total mahasiswa";
+		th4.style.fontWeight = "bold";
+		headerRow.appendChild(th4);
+		
+
+		// Create table body
+		// DosPemCount.forEach(data => {
+		// const row = table.insertRow();
+		// Object.values(data).forEach(value => {
+		// 	const td = document.createElement('td');
+		// 	td.textContent = value;
+		// 	row.appendChild(td);
+		// });
+		// });
+
+		// DosUjiCount.forEach(data => {
+		// 	const row = table.insertRow();
+		// 	Object.values(data).forEach(value => {
+		// 		const td = document.createElement('td');
+		// 		td.textContent = value;
+		// 		row.appendChild(td);
+		// 	});
+		//   });
+		  
+
+		const generateTableRows = (data) => {
+		  data.forEach((d) => {
+			const row = table.insertRow();
+			Object.values(d).forEach((value) => {
+			  const td = document.createElement('td');
+			  td.textContent = value;
+			  row.appendChild(td);
+			});
+		  });
+		};
+		
+		generateTableRows(DosPemArray);
+		
+
+		
+
+
+
+		document.getElementById('table-container').appendChild(table);
+
+
+	}).catch(function(error) {
+		console.log(error);
+	});
+
+
+

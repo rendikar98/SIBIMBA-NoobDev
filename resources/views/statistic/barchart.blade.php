@@ -15,20 +15,22 @@
 <body class="container">
 	<h2>Statistik</h2>
 
-    <div id="vis"></div>
+
 
 	<div class="btn-group" data-toggle="buttons">
+		<label class="btn btn-primary active">
+			<input value="pendamping" class="sex" type="radio" name="options" id="option1" autocomplete="off" checked>pendamping
+		</label>
+		<label class="btn btn-primary	">
+			<input value="penguji" type="radio" class="sex" name="options" id="option2" autocomplete="off" >penguji
+		</label>
 		<label class="btn btn-primary">
-			<input value="pendamping" class="sex" type="radio" name="options" id="option1" autocomplete="off" >pendamping
-		</label>
-		<label class="btn btn-primary active">
-			<input value="penguji" type="radio" class="sex" name="options" id="option2" autocomplete="off" checked>penguji
-		</label>
-		<label class="btn btn-primary active">
-			<input value="total" type="radio" class="sex" name="options" id="option2" autocomplete="off" checked>total
+			<input value="total" type="radio" class="sex" name="options" id="option3" autocomplete="off" >total
 		</label>
 	</div>
 
+	<div id="vis"></div>
+	<div id="table-container"></div>
 
 	<!-- Libraries -->
 	<script src="https://code.jquery.com/jquery.min.js"></script>
@@ -43,5 +45,7 @@
 
 	<script src="{{ asset("js/barchart.js") }}"></script>
 	<script src="{{ asset("js/main.js") }}"></script>
+	
+	
 
 </body>
