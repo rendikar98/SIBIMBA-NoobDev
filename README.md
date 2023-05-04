@@ -2,8 +2,9 @@
 Web Programming Project for Final
 
 Ketua   : Muhammad Farhan
-Anggota : Akhyar
-          Adrean Badar
-          Muhammad Akbarul Ihsan
-          Muhammad Rayyan Azzuhri
-          Rendika Rahmaturrizki
+<br>
+Anggota : Akhyar <br>
+          Adrean Badar <br>
+          Muhammad Akbarul Ihsan <br>
+          Muhammad Rayyan Azzuhri <br>
+          Rendika Rahmaturrizki <br>
