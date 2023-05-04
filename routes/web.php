@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/data_bimbingan', function () {
-    return view('data_bimbingan');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -26,10 +23,6 @@ Route::get('/dashboard', function () {
 
 Route::get('/inputdata', function () {
     return view('inputdata');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
 });
 
 Route::resource("data_bimbingan", App\Http\Controllers\dataController::class);
@@ -45,4 +38,8 @@ Route::get('/barchart/Data', function(){
 
 Route::get('/barchart', function(){
     return view('statistic.barchart');
+});
+
+Route::get('/login', function () {
+    return view('login');
 });

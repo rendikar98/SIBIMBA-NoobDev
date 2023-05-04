@@ -24,7 +24,6 @@
         </nav>
     </header>
 
-
     <main class="pt-20" style="background-color: #0e4166; text-align: white;">
         <div class="flex items-center justify-center">
             <div class="text-center">
@@ -37,7 +36,7 @@
         <br>
         <br>
         <div class="flex justify-center">
-            <a href="/dashboard">
+            <a href="/login">
                 <button
                     class="flex items-center px-4 py-2 font-bold text-blue-500 bg-white rounded-full hover:bg-blue-600">
                     <i class="mr-2 fas fa-play-circle"></i>
@@ -50,7 +49,7 @@
     </main>
 
 
-    <footer class="pt-2 text-center bg-white fixed-bottom">
+    <footer class="py-5 text-center bg-white fixed-bottom">
         <p>&copy; 2023 NoobDev</p>
     </footer>
 
