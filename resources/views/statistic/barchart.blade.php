@@ -30,6 +30,7 @@
 	</div>
 
 	<div id="vis"></div>
+	<div id="table-container"></div>
 
 	<!-- Libraries -->
 	<script src="https://code.jquery.com/jquery.min.js"></script>
@@ -44,5 +45,7 @@
 
 	<script src="{{ asset("js/barchart.js") }}"></script>
 	<script src="{{ asset("js/main.js") }}"></script>
+	
+	
 
 </body>

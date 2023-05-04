@@ -76,6 +76,92 @@ d3.json("/barchart/Data").then(function(data) {
 	}
 	);
 
+
+	const DosenData = DosPemCount.reduce((acc, cur) => {
+		const matchingUji = DosUjiCount.find((uji) => uji.DosPem === cur.DosPem);
+		const matchingTotal = DosTotalCount.find((total) => total.DosPem === cur.DosPem);
+		acc[cur.DosPem] = {
+			dosen : cur.DosPem,
+		  countPem: cur.count,
+		  countUji: matchingUji.count,
+		  countTotal: matchingTotal.count
+		};
+		return acc;
+	  }, {});
+	  
+
+	  const DosPemArray = Object.values(DosenData);
+		console.log(DosPemArray);
+
+		const table = document.createElement('table');
+		table.className = 'my-table';
+
+		const headerRow = table.insertRow();
+		const th1 = document.createElement('th');
+		th1.textContent = "Daftar Dosen";
+		th1.classList.add("my-custom-class");
+		headerRow.appendChild(th1);
+
+		const th2 = document.createElement('th');
+		th2.textContent = "mahasiswa dibimbing";
+		th2.style.fontWeight = "bold";
+		headerRow.appendChild(th2);
+
+		const th3 = document.createElement('th');
+		th3.textContent = "mahasiswa diuji";
+		th3.style.fontWeight = "bold";
+		headerRow.appendChild(th3);
+		
+		const th4 = document.createElement('th');
+		th4.textContent = "Total mahasiswa";
+		th4.style.fontWeight = "bold";
+		headerRow.appendChild(th4);
+		
+
+		// Create table body
+		// DosPemCount.forEach(data => {
+		// const row = table.insertRow();
+		// Object.values(data).forEach(value => {
+		// 	const td = document.createElement('td');
+		// 	td.textContent = value;
+		// 	row.appendChild(td);
+		// });
+		// });
+
+		// DosUjiCount.forEach(data => {
+		// 	const row = table.insertRow();
+		// 	Object.values(data).forEach(value => {
+		// 		const td = document.createElement('td');
+		// 		td.textContent = value;
+		// 		row.appendChild(td);
+		// 	});
+		//   });
+		  
+
+		const generateTableRows = (data) => {
+		  data.forEach((d) => {
+			const row = table.insertRow();
+			Object.values(d).forEach((value) => {
+			  const td = document.createElement('td');
+			  td.textContent = value;
+			  row.appendChild(td);
+			});
+		  });
+		};
+		
+		generateTableRows(DosPemArray);
+		
+
+		
+
+
+
+		document.getElementById('table-container').appendChild(table);
+
+
 	}).catch(function(error) {
 		console.log(error);
 	});
+
+
+
