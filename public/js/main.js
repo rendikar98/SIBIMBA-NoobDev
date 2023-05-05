@@ -116,26 +116,6 @@ d3.json("/barchart/Data").then(function(data) {
 		th4.textContent = "Total mahasiswa";
 		th4.style.fontWeight = "bold";
 		headerRow.appendChild(th4);
-		
-
-		// Create table body
-		// DosPemCount.forEach(data => {
-		// const row = table.insertRow();
-		// Object.values(data).forEach(value => {
-		// 	const td = document.createElement('td');
-		// 	td.textContent = value;
-		// 	row.appendChild(td);
-		// });
-		// });
-
-		// DosUjiCount.forEach(data => {
-		// 	const row = table.insertRow();
-		// 	Object.values(data).forEach(value => {
-		// 		const td = document.createElement('td');
-		// 		td.textContent = value;
-		// 		row.appendChild(td);
-		// 	});
-		//   });
 		  
 
 		const generateTableRows = (data) => {

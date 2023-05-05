@@ -16,6 +16,8 @@ class Barchart {
     };
     this.data = _data;
 
+
+
     this.initVis();
   }
 
@@ -88,15 +90,14 @@ class Barchart {
     vis.yAxisG = vis.chart.append("g").attr("class", "axis y-axis");
 
     // Append y-axis title
-    vis.yAxisTitle = vis.yAxisG
-      .append("text")
-      .attr("transform", "rotate(-90)") // when rotate -90, you rotate around the 0,0 point of the svg el
-      .attr("y", -vis.config.margin.top + 20) // so you subtract the margin.top to push the label visually to the left
-      .attr("x", -vis.height / 2) // and also move it vertically down even though it's the 'x' attribute
-      .attr("dy", "1em")
-      .attr("fill", "black")
-      .style("text-anchor", "middle")
-      .text("Jumlah mahasiswa");
+    vis.yAxisTitle = vis.yAxisG.append("text")
+			.attr("transform", "rotate(-90)") // when rotate -90, you rotate around the 0,0 point of the svg el
+			.attr("y", -vis.config.margin.top + 20) // so you subtract the margin.top to push the label visually to the left
+			.attr("x", -vis.height / 2) // and also move it vertically down even though it's the 'x' attribute
+			.attr("dy", "1em")
+			.attr('fill', 'black')
+			.style("text-anchor", "middle")
+			.text("Jumlah mahasiswa");
   }
 
   /**
@@ -150,12 +151,33 @@ class Barchart {
     // Fill out renderVis
     let vis = this;
 
-    let bars = vis.chart.selectAll(".bar").data(vis.data);
+    vis.tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
-    let barEnter = bars.enter().append("rect").attr("class", "bar");
 
-    barEnter
-      .merge(bars) // enter + update passing the selection to merge
+    let bars = vis.chart.selectAll('.bar')
+        .data(vis.data)
+        .on('mouseover', function(event, d) {
+          console.log(d);
+          vis.tooltip
+          .transition()
+          .duration(200)
+          .style("opacity", 0.9);
+          vis.tooltip
+          .html( `Jumlah mahasiswa : ${d.count}`)
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 28 + "px");
+        })
+        .on("mouseout", function (event, d) {
+          vis.tooltip.transition().duration(200).style("opacity", 0);
+        });;
+
+        let barEnter = bars.enter()
+        .append('rect')
+        .attr('class', 'bar');
+
+    barEnter.merge(bars) // enter + update passing the selection to merge
       .attr("x", (d) => {
         const x = vis.xScale(vis.xValue(d));
         return x;
