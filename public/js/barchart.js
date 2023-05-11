@@ -10,9 +10,11 @@ class Barchart {
     // you might want to use getter and setter methods for individual attributes
     this.config = {
       parentElement: _config.parentElement,
-      containerWidth: _config.containerWidth || 1000,
-      containerHeight: _config.containerHeight || 600,
+      containerWidth: _config.containerWidth || 600,
+      containerHeight: _config.containerHeight || 500,
       margin: _config.margin || { top: 20, right: 20, bottom: 200, left: 40 },
+      reverseOrder: _config.reverseOrder || false,
+      tooltipPadding: _config.tooltipPadding || 15
     };
     this.data = _data;
 
@@ -98,6 +100,11 @@ class Barchart {
 			.attr('fill', 'black')
 			.style("text-anchor", "middle")
 			.text("Jumlah mahasiswa");
+
+      
+    vis.tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
   }
 
   /**
@@ -126,20 +133,20 @@ class Barchart {
     vis.xAxisG
       .call(vis.xAxis)
       .selectAll(".tick text")
-      .attr("transform", "rotate(-90)")
+      .attr("transform", "rotate(-65)")
       .attr("text-anchor", "end")
       .attr("dx", "-0.8em")
       .attr("dy", "-0.5em");
 
     vis.renderVis();
 
-    vis.xAxisG
-      .selectAll(".tick line")
-      .attr("x1", 0)
-      .attr("y1", 0)
-      .attr("x2", 0)
-      .attr("y2", vis.height)
-      .attr("transform", "translate(" + vis.xScale.bandwidth() / 2 + ",0)");
+    // vis.xAxisG
+    //   .selectAll(".tick line")
+    //   .attr("x1", 0)
+    //   .attr("y1", 0)
+    //   .attr("x2", 0)
+    //   .attr("y2", 0)
+    //   .attr("transform", "translate(" + vis.xScale.bandwidth() / 2 + ",0)");
   }
 
   /**
@@ -151,31 +158,33 @@ class Barchart {
     // Fill out renderVis
     let vis = this;
 
-    vis.tooltip = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
 
 
     let bars = vis.chart.selectAll('.bar')
-        .data(vis.data)
-        .on('mouseover', function(event, d) {
+        .data(vis.data);
+
+        bars.on('mouseover', function(event, d) {
           console.log(d);
           vis.tooltip
           .transition()
           .duration(200)
           .style("opacity", 0.9);
           vis.tooltip
-          .html( `Jumlah mahasiswa : ${d.count}`)
-          .style("left", event.pageX + 10 + "px")
-          .style("top", event.pageY - 28 + "px");
+          .html( `Jumlah mahasiswa : ${d.count}`);
+
+        })
+        .on("mousemove", (event) => {
+          vis.tooltip
+            .style("left", event.pageX + vis.config.tooltipPadding + "px")
+            .style("top", event.pageY + vis.config.tooltipPadding + "px");
         })
         .on("mouseout", function (event, d) {
           vis.tooltip.transition().duration(200).style("opacity", 0);
-        });;
+        });
 
-        let barEnter = bars.enter()
-        .append('rect')
-        .attr('class', 'bar');
+    let barEnter = bars.enter()
+      .append('rect')
+      .attr('class', 'bar');
 
     barEnter.merge(bars) // enter + update passing the selection to merge
       .attr("x", (d) => {
@@ -192,6 +201,8 @@ class Barchart {
       })
       .attr("height", (d) => vis.height - vis.yScale(vis.yValue(d)));
 
+     
+
     bars.exit().remove();
 
     // Update the axes because the underlying scales might have changed
@@ -199,3 +210,5 @@ class Barchart {
     vis.yAxisG.call(vis.yAxis);
   }
 }
+
+

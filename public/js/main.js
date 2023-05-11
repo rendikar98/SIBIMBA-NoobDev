@@ -72,7 +72,7 @@ d3.json("/barchart/Data").then(function(data) {
 		barchart.updateVis();
 		
 		const filteredData = filterData();
-		console.log(filteredData);
+		// console.log(filteredData);
 	}
 	);
 
