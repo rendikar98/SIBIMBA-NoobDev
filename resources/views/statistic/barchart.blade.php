@@ -34,10 +34,9 @@
     </header>
 
 
-    <h2>Statistik</h2>
+    <div class="container py-10">
 
-
-    <div class="container">
+        
         <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-primary active">
                 <input value="pendamping" class="sex" type="radio" name="options" id="option1" autocomplete="off"
@@ -53,24 +52,27 @@
             </label>
         </div>
 
-        <div id="vis"></div>
-        <div id="table-container"></div>
-
-        <!-- Libraries -->
-        <script src="https://code.jquery.com/jquery.min.js"></script>
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"
-            type="text/css" />
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <script src="{{ asset('js/d3.v7.min.js') }}"></script>
-
-        <!-- your script file -->
-        <link rel="icon" href="data:;base64,iVBORwOKGO=" />
-        <!-- <script src="js/barchart.js"></script> -->
-
-        <script src="{{ asset('js/barchart.js') }}"></script>
-        <script src="{{ asset('js/main.js') }}"></script>
+        <div class="grid-container">
+            <div id="vis" class="grid-item"></div>
+            <div id="table-container" class="grid-item"></div>
+          </div>
+          
     </div>
 
+    <div id="tooltip"></div>
+            <!-- Libraries -->
+            <script src="https://code.jquery.com/jquery.min.js"></script>
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"
+                type="text/css" />
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+            <script src="{{ asset('js/d3.v7.min.js') }}"></script>
+    
+            <!-- your script file -->
+            <link rel="icon" href="data:;base64,iVBORwOKGO=" />
+            <!-- <script src="js/barchart.js"></script> -->
+    
+            <script src="{{ asset('js/barchart.js') }}"></script>
+            <script src="{{ asset('js/main.js') }}"></script>
     <footer class="py-5 text-center bg-white fixed-bottom">
         <p>&copy; 2023 NoobDev</p>
     </footer>
