@@ -35,8 +35,8 @@ d3.json("/barchart/Data").then(function(data) {
 		return acc;
 	}, {}));
 
-	console.log(DosPemCount);
-	console.log(DosTotalCount)
+	// console.log(DosPemCount);
+	// console.log(DosTotalCount)
 
 	const getFilters = () => {
 		const sex = $('.btn-group .active input.sex').attr('value');
@@ -62,6 +62,8 @@ d3.json("/barchart/Data").then(function(data) {
 	DosUjiCount.sort((a, b) => d3.descending(a.count, b.count));
 	DosTotalCount.sort((a, b) => d3.descending(a.count, b.count));
 
+	console.log(DosPemCount);
+	console.log(DosUjiCount);
 
 	let barchart = new Barchart({ parentElement: '#vis'}, filterData());
 
@@ -77,21 +79,20 @@ d3.json("/barchart/Data").then(function(data) {
 	);
 
 
-	const DosenData = DosPemCount.reduce((acc, cur) => {
+	const DosenData = DosTotalCount.reduce((acc, cur) => {
 		const matchingUji = DosUjiCount.find((uji) => uji.DosPem === cur.DosPem);
-		const matchingTotal = DosTotalCount.find((total) => total.DosPem === cur.DosPem);
+		const matchingPembimbing = DosPemCount.find((pem) => pem.DosPem === cur.DosPem);
 		acc[cur.DosPem] = {
-			dosen : cur.DosPem,
-		  countPem: cur.count,
-		  countUji: matchingUji.count,
-		  countTotal: matchingTotal.count
+			dosen : cur?.DosPem || 0,
+		  countPem: matchingPembimbing?.count || 0 ,
+		  countUji: matchingUji?.count || 0,
+		  countTotal: cur?.count || 0,
 		};
 		return acc;
 	  }, {});
 	  
 
 	  const DosPemArray = Object.values(DosenData);
-		console.log(DosPemArray);
 
 		const table = document.createElement('table');
 		table.className = 'my-table';

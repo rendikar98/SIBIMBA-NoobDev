@@ -52,13 +52,15 @@
             </label>
         </div>
 
-        <div class="grid-container">
-            <div id="vis" class="grid-item"></div>
-            <div id="table-container" class="grid-item"></div>
-          </div>
+
           
     </div>
 
+
+    <div class="grid-container">
+        <div id="vis" class="grid-item"></div>
+        <div id="table-container" class="grid-item"></div>
+      </div>
     <div id="tooltip"></div>
             <!-- Libraries -->
             <script src="https://code.jquery.com/jquery.min.js"></script>
